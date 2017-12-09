@@ -1,0 +1,17 @@
+package main
+
+import cyan.io
+
+object CatchAgeErrorHard
+overload
+func eval: ExceptionNegAge e {
+  Out println: "Age ", e getAge, " is negative";
+  System exit: 1
+}
+overload
+func eval: ExceptionInvAge e {
+  Out println: "Age ", e getAge, " is out of limits";
+  System exit: 1
+}
+
+end

@@ -1,0 +1,59 @@
+package main
+
+import cyan.io
+
+object Program
+
+func ageDescription: Int age -> String {
+  var String faixaEtaria;
+
+  if  age >= 0 && age <= 3  {
+    return "bebê";
+  }
+  else {
+    if age >= 4 && age <= 12 {
+      return "crianca";
+    }
+    else {
+      if age >= 13 && age <= 19 {
+        return "adolescente";
+      }
+      else {
+        if age >= 20 && age <= 65 {
+          return "adulto";
+        }
+        else {
+          if age >= 66 && age <= 127 {
+            return "idoso";
+          }
+          else {
+            if age < 0 {
+              throw: ExceptionNegAge(age);
+            }
+            if age > 127 {
+              throw: ExceptionInvAge(age);
+            }
+
+          }
+        }
+      }
+    }
+    return ""
+  }
+
+
+}
+
+  func run {
+    let Program p = Program new;
+    var String idade;
+
+    {
+      idade = (p ageDescription: 190 );
+      idade println;
+    } catch: (FactoryCatch getCatchDefault);
+
+    "Fim do programa" println;
+  }
+
+end

@@ -1,0 +1,41 @@
+package main
+
+import cyan.io
+
+object ExceptionNegAge extends CyException
+  private Int age;
+
+  func init: Int idade {
+   _age = idade;
+  }
+
+  func getAge -> Int {
+    return self.age;
+  }
+
+ @pushCompilationContextStatement(pp11, pp) 
+
+    // Methods added by the compiler
+    override    func prototype -> ExceptionNegAge {
+        @javacode{* return prototype;
+        *}
+    } 
+ @popCompilationContext(pp11) 
+ @pushCompilationContextStatement(new265, new) 
+    // Methods added by the compiler
+
+    override    func clone -> ExceptionNegAge {
+        @javacode<<*
+        try {
+            return (_ExceptionNegAge ) this.clone(); 
+        } catch (CloneNotSupportedException e) { }
+        return null;
+        *>>    } 
+
+    func new: ( Int p0 ) -> ExceptionNegAge {
+        @javacode<**< 
+            return new _ExceptionNegAge(_p0);
+        >**>
+    }
+ @popCompilationContext(new265) 
+end

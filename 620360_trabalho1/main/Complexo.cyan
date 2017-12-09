@@ -1,0 +1,198 @@
+package main
+
+/*
+  Nome: Gabriela Ramos
+  RA: 620360
+  compile this using something like
+  C:\Cyan\saci C:\Cyan\620360_trabalho1\p.pyan  -cyanlang "C:\Cyan\lib" -javalib "C:\Cyan\lib\javalib" -args "C:\Cyan\620360_trabalho1\teste.txt" "C:\Cyan\620360_trabalho1\testeSaida.txt"
+  */
+import cyan.io
+import other
+//import script
+
+object Complexo
+    private let Tuple< Double, Double> numComplexo;
+
+
+    //construtor para a parte real e imaginaria
+    func init: Double x1,  Double x2 {
+      self.numComplexo = [. x1, x2 .];
+    }
+
+    //construtor para a parte real
+    func init: Double real {
+      self.numComplexo = [. real, 0.0 .];
+    }
+
+    //construtor para inicializar um numero complexo
+    func init {
+      self.numComplexo = [. 0.0, 0.0 .];
+    }
+
+    func getNumComplex -> Tuple<Double, Double> {
+      ^ self.numComplexo;
+    }
+
+    func + (Complexo complex) -> Complexo {
+      var t;
+      t = ( complex getNumComplex);
+      var Double real1 = t f1;
+      var Double img1 = t f2;
+
+      var Double real2 = self.numComplexo f1;
+      var Double img2 = self.numComplexo f2;
+
+      return Complexo(real1 + real2, img1 + img2)
+
+    }
+
+    func - (Complexo complex) -> Complexo {
+      var t;
+      t = ( complex getNumComplex);
+      var Double real1 = t f1;
+      var Double img1 = t f2;
+
+      var Double real2 = self.numComplexo f1;
+      var Double img2 = self.numComplexo f2;
+
+      return Complexo(real2 - real1, img2 - img1)
+
+    }
+
+    func * (Complexo complex) -> Complexo {
+      var t;
+      t = ( complex getNumComplex);
+      var Double real1 = t f1;
+      var Double img1 = t f2;
+
+      var Double real2 = self.numComplexo f1;
+      var Double img2 = self.numComplexo f2;
+
+      return Complexo(real1 * real2, img1 * img2)
+
+    }
+
+    //Funcao que converte Double para complexo
+    func getDoubles: String s -> Tuple<Double, Double> {
+    var first = "";
+    var second = "";
+    var Int i = 0;
+    while i < s size {
+        if s[i] != ' ' && s[i] != '\t' { break }
+        ++i
+    }
+    while i < s size {
+        if s[i] == ' ' || s[i] == '\t' { break }
+        first = first ++ s[i];
+        ++i
+    }
+    while i < s size {
+        if s[i] != ' ' && s[i] != '\t' { break }
+        ++i
+    }
+    while i < s size {
+        if s[i] == ' ' || s[i] == '\t' { break }
+        second = second ++ s[i];
+        ++i
+    }
+
+    notNil n = first asDouble {
+        notNil n2 = second asDouble {
+            return [. n, n2 .];
+        }
+    }
+
+    return [. 1.0, 2.0 .];
+
+    }
+
+    func converteDouble {
+      {
+        if getNumComplex f2 != 0.0 {
+          throw: ExceptionStr;
+        } else {
+          var Double real = getNumComplex f1;
+        }
+      } catch: { (: ExceptionStr e :) Out println: "Parte imaginaria existente" };
+
+    }
+
+    //funcao que testa se parte real é igual a parte imaginaria
+    override func eq: Dyn other -> Boolean {
+      type other
+          case Complexo comp {
+            var Double real;
+            var Double img;
+            var Tuple< Double, Double> t;
+            t = (other getNumComplex);
+
+            if t f1 equal: t f2 {
+              return true;
+            }
+            else {
+              return false;
+            }
+          }
+
+      return false
+    }
+
+    override func neq: Dyn other -> Boolean {
+      type other
+          case Complexo comp {
+            var Double real;
+            var Double img;
+            var Tuple< Double, Double> t;
+            t = (other getNumComplex);
+
+            if t f1 equal: t f2 {
+              return false;
+            }
+            else {
+              return true;
+            }
+          }
+
+      return false
+    }
+
+    override func === (Dyn other) -> Boolean {
+      type other
+        case Complexo comp {
+          return self == other
+        }
+      return false
+    }
+
+    override func != (Dyn other) -> Boolean {
+      type other
+        case Complexo comp {
+          return !(self == other)
+        }
+      return false
+    }
+
+    override func asString -> String {
+      var String s = "Complexos";
+      return s;
+    }
+
+    func equal: Complexo other -> Boolean {
+      var x = (other getNumComplex);
+
+      if (x f1) equal: self.numComplexo f1 {
+        if (x f2) equal: self.numComplexo f2 {
+          return true;
+        }
+        return false;
+      }
+      return false;
+    }
+
+    /*
+    func |> Function<Complexo, Complexo> f -> Double {
+      return f eval: self.numComplexo f1
+    }
+    */
+
+end

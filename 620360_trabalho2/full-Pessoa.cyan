@@ -1,0 +1,8 @@
+package main
+
+import cyan.io
+
+object ExceptionNegAge extends CyException
+  @init(age)
+  public Int age
+end

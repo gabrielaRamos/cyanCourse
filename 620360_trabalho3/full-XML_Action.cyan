@@ -1,0 +1,100 @@
+package main
+
+import cyan.io
+import other
+object XML_Action
+
+func toXML: Any any -> String {
+  var Any valor = "";
+  var Any slot = "";
+  var Any key = "";
+  var String cabecalho = "";
+  var String tail = "";
+  var Any auxString = "";
+  var Any aux = "";
+  let Array<Tuple<Any, Any, Any>> valores = Array<Tuple<Any, Any, Any>> new: 100;
+  var String conteudo = "";
+
+  for t in any featureList {
+    valor = t value;
+    key = t key;
+    if key != "xmlRoot" {
+      throw: ExceptionToXMLIllegalParameter(key);
+    }
+  }
+
+  cabecalho = "<" ++ valor ++ " prototype=" ++  any prototypeName ++ ">\n";
+  tail =  "</" ++  valor ++ ">";
+
+  for t in any slotFeatureList {
+    slot = t slotName;
+    key = t key;
+    valor = t value;
+    valores add: [. slot, key, valor .];
+  }
+
+  for i in 0..(valores size)-1 {
+
+    type valores[i] f1
+      case String s {
+        var String subS = s;
+
+        var Int tamanho = subS size;
+        var String newS = subS substring: 1, tamanho;
+        var Char maiuscula = subS[0];
+        maiuscula = maiuscula toUpperCase;
+
+        newS = "get" ++ maiuscula ++ newS;
+
+        var prot = any `newS;
+
+        if prot prototypeName != "Int" && prot prototypeName != "String" {
+          //REFERENCIA CIRCULAR - EXCEÇÃO
+          if any prototypeName == prot prototypeName {
+            throw: ExceptionCircularReference(any prototypeName);
+          }
+
+          auxString = valores[i] f3;
+          aux = toXML: prot;
+          conteudo = conteudo ++ "\t" ++ aux ++ "\n";
+          aux = "";
+
+        }
+        else
+        {
+          conteudo = conteudo ++ "\t<" ++ ( valores[i] f3 ) ++ ">\n";
+          { type prot
+                case Any other {
+                  conteudo = conteudo ++ "\t<" ++ other ++ ">\n";
+
+                }
+                case Nil nil {
+                  conteudo = conteudo ++ "\t<" ++ "Nil" ++ ">\n";
+                }
+
+          }
+
+        }
+        if auxString != (valores[i] f3) {
+          if prot prototypeName == "Int" {
+            conteudo = conteudo ++ "\t" ++ prot ++ "\n";
+          }
+          else {
+            conteudo = conteudo ++ "\t\"" ++ prot ++ "\"" ++ "\n";
+          }
+          aux =  valores[i] f3;
+        }
+      }
+    if aux != "" {
+      conteudo = conteudo ++ "\t" ++ "</" ++ aux ++ ">\n";
+    }
+
+
+  }
+  conteudo = cabecalho ++ conteudo ++ tail;
+
+
+  return conteudo;
+}
+
+end

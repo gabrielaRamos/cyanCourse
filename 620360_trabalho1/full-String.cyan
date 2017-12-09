@@ -1,0 +1,306 @@
+package cyan.lang
+
+final object String implements Iterable<Char>
+	@javacode<<<
+	    public String s = "";
+        public CyString(String s) { this.s = s; }
+	>>>
+
+    func init {
+        @javacode{*
+        s = "";
+        *}
+    }
+
+    func [] at: Int index -> Char {
+        @javacode[*{
+            return new CyChar(s.charAt(_index.n));
+        }*]
+    }
+
+
+
+    @deprecated("Method '+' for strings is deprecated. Use '++' instead")
+    func +  (Any other) -> String { @javacode<<< return new CyString(s + _other._asString().s); >>> }
+    func <  (String other) -> Boolean { @javacode<<< return new CyBoolean(s.compareTo(_other.s) < 0);  >>> }
+    func <= (String other) -> Boolean { @javacode<<< return new CyBoolean(s.compareTo(_other.s) <= 0);  >>> }
+    func >  (String other) -> Boolean { @javacode<<< return new CyBoolean(s.compareTo(_other.s) > 0);  >>> }
+    func >= (String other) -> Boolean { @javacode<<< return new CyBoolean(s.compareTo(_other.s) >= 0);  >>> }
+
+    override
+    func == (Dyn other)  -> Boolean { 
+        @javacode<<< 
+            try {
+                return new CyBoolean(s.equals( (((CyString ) _other).s))) ; 
+            }
+            catch ( ClassCastException e ) {
+            }
+        >>> 
+        return false;
+    }
+    override
+    func != (Dyn other)  -> Boolean { 
+        @javacode<<< 
+            try {
+                return new CyBoolean(!s.equals( (((CyString ) _other).s))) ; 
+            }
+            catch ( ClassCastException e ) {
+            }
+        >>> 
+        return false;
+    }
+  
+    func <=> (String other) -> Int {  
+        if self < other { return -1 } 
+        else if self > other { return 1 }
+        else { 
+           return 0
+        }
+    }
+    
+    func ~= (IPattern pattern) -> Boolean {
+         ^ pattern ~= self
+    }
+
+	
+	func size -> Int { @javacode<<< return new CyInt(s.length()); >>> }
+
+    override
+    func asString -> String { return self }
+    
+    override
+    func asStringQuoteIfString -> String = "\"" ++ asString ++ "\"";
+    
+
+    func in: Iterable<String> container -> Boolean {
+        for item in container  {
+            if self == item {
+                return true;
+            }
+        };
+        return false;
+    }
+     
+     
+    func asByte  -> Byte { 
+        @javacode<<< 
+        byte elem = 0;
+        try {
+           elem = Byte.parseByte(s);
+            
+        } catch (NumberFormatException e) {
+            throw new ExceptionContainer__(_ExceptionNumberFormat.prototype);
+        }
+        return new CyByte(elem); 
+        >>> 
+    }
+    func asShort -> Short { 
+        @javacode<<< 
+        short elem = 0;
+        try {
+           elem = Short.parseShort(s);
+            
+        } catch (NumberFormatException e) {
+            throw new ExceptionContainer__(_ExceptionNumberFormat.prototype);
+        }
+        return new CyShort(elem); 
+        >>> 
+    }
+    func asInt -> Int { 
+        @javacode<<< 
+        int elem = 0;
+        try {
+           elem = Integer.parseInt(s);
+            
+        } catch (NumberFormatException e) {
+            throw new ExceptionContainer__(_ExceptionNumberFormat.prototype);
+        }
+        return new CyInt(elem); 
+        >>> 
+    }
+    func asLong -> Long { 
+        @javacode<<< 
+        long elem = 0;
+        try {
+           elem = Long.parseLong(s);
+            
+        } catch (NumberFormatException e) {
+            throw new ExceptionContainer__(_ExceptionNumberFormat.prototype);
+        }
+        return new CyLong(elem); 
+        >>> 
+    }
+    func asFloat -> Float { 
+        @javacode<<< 
+        float elem = 0;
+        try {
+           elem = Float.parseFloat(s);
+            
+        } catch (NumberFormatException e) {
+            throw new ExceptionContainer__(_ExceptionNumberFormat.prototype);
+        }
+        return new CyFloat(elem); 
+        >>> 
+    }
+    func asDouble -> Double {  
+        @javacode<<< 
+        double elem = 0;
+        try {
+           elem = Double.parseDouble(s);
+            
+        } catch (NumberFormatException e) {
+            throw new ExceptionContainer__(_ExceptionNumberFormat.prototype);
+        }
+        return new CyDouble(elem); 
+        >>> 
+    }
+    
+    func asChar -> Char { 
+        @javacode<<< 
+            if ( s.length() != 1 )
+                throw new ExceptionContainer__(_ExceptionNumberFormat.prototype);
+            else 
+                return new CyChar( s.charAt(0) ); 
+        >>> 
+    }
+    
+    func asBoolean -> Boolean { 
+        @javacode<<< 
+        if ( s.compareTo("false") == 0 ) 
+            return new CyBoolean(false); 
+        else if ( s.compareTo("true") == 0 )
+            return new CyBoolean(true); 
+        else
+            throw new ExceptionContainer__(_ExceptionNumberFormat.prototype);
+        >>> 
+    }
+    
+        
+    func foreach: Function<Char, Nil> b { 
+	    @javacode<<<  
+		int size = s.length();
+		for ( int i = 0; i < size; ++i ) {
+		    _b._eval_1( new CyChar(s.charAt(i)) );
+		}
+		>>> 
+        return Nil
+	}
+
+    func substring: Int start, Int lastBut -> String {
+        @javacode{*
+            String newS = s.substring(_start.n, _lastBut.n);
+            return new CyString(newS);
+        *}
+    }
+    
+    func * (Int number) -> String {
+        var String s = "";
+        if number > 0 {
+            number times: {
+                s = s ++ self
+            }
+        }
+        return s
+    }
+    
+    @doc{*
+        return the number of 'ch' in the string
+    *}
+    func countChar: Char ch -> Int {
+        var count = 0;
+        for other in self {
+            if other == ch {
+                ++count
+            }
+        }
+        return count
+    }
+    
+    func |> Function<String, String> f -> String {
+        return f eval: self
+    }
+    
+    func last -> Char {
+        return at: (size - 1);
+    }
+    
+    func iterator -> Iterator<Char> {
+        return CharIterator(self);
+    }
+
+    override
+    func hashCode -> Int { 
+        @javacode<<<
+            return new CyInt(s.hashCode());
+        >>>
+    }
+    
+    func asCharArray -> Array<Char> {
+        let Array<Char> ca = Array<Char> new;
+        if self size == 0 { return ca }
+        else {
+            for ch in self {
+                ca add: ch
+            }
+            return ca
+        }
+    }
+    
+    func trim -> String {
+        @javacode{*
+        return new CyString( s.trim() );
+        *}
+    }
+    
+    func endsWith: String theEnd -> Boolean {
+        @javacode{*
+        return new CyBoolean( s.endsWith(_theEnd.s) );
+        *}
+    }
+    
+    func startsWith: String theStart -> Boolean {
+        @javacode{*
+        return new CyBoolean( s.startsWith(_theStart.s) );
+        *}
+    }
+
+    func defaultValue -> String = "";   
+ @pushCompilationContextStatement(pp46, pp) 
+
+    // Methods added by the compiler
+    override    func prototype -> String {
+        @javacode{* return prototype;
+        *}
+    } 
+ @popCompilationContext(pp46) 
+ @pushCompilationContextStatement(new348, new) 
+    // Methods added by the compiler
+
+    override    func clone -> String {
+        @javacode<<*
+        try {
+            return (CyString ) this.clone(); 
+        } catch (CloneNotSupportedException e) { }
+        return null;
+        *>>    } 
+
+    override
+    func cast: Any other -> String {
+        @javacode{*
+        if ( _other instanceof CyString ) { return (CyString ) _other; }
+        else {
+               Object ue = _other.getUnionElem();
+               if ( ue != null && ue instanceof _Any ) return _cast_1( (_Any ) ue);
+        }
+        *}
+        throw: ExceptionCast("Cannot cast " ++ (other prototypeName) ++ " to 'String'");
+    }
+
+
+    func new -> String {
+         @javacode<**< 
+            return new CyString();         >**>
+    }
+ @popCompilationContext(new348) 
+end
+

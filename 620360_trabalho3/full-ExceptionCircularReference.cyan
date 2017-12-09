@@ -1,0 +1,16 @@
+package main
+
+import cyan.io
+
+object ExceptionCircularReference extends CyException
+  private Any prototyp;
+
+  func init: Any prot {
+   self.prototyp = prot;
+  }
+
+  func getAny -> Any {
+    return self.prototyp;
+  }
+
+end

@@ -1,0 +1,44 @@
+package main
+
+object Program
+
+
+    func run {
+      let newton = Person("Isaac Newton", 24, City("Cambridge"));
+      let stars = '*'*50;
+      var XML_Action xml;
+      var String retorno = "";
+      {
+
+      retorno = XML_Action toXML: newton;
+
+      } catch: Exceptions;
+      println retorno;
+    }
+
+ @pushCompilationContextStatement(pp13, pp) 
+
+    // Methods added by the compiler
+    override    func prototype -> Program {
+        @javacode{* return prototype;
+        *}
+    } 
+ @popCompilationContext(pp13) 
+ @pushCompilationContextStatement(new284, new) 
+    // Methods added by the compiler
+
+    override    func clone -> Program {
+        @javacode<<*
+        try {
+            return (_Program ) this.clone(); 
+        } catch (CloneNotSupportedException e) { }
+        return null;
+        *>>    } 
+    func init { } 
+
+    func new -> Program {
+        @javacode<**< 
+            return new _Program();        >**>
+    }
+ @popCompilationContext(new284) 
+end

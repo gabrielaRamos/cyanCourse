@@ -1,0 +1,9 @@
+package cyan.lang
+
+@genericPrototypeInstantiationInfo#dpa("cyan.lang", "Iterable<any>", 6, 22)
+
+public interface Iterator<any>
+    func hasNext -> Boolean 
+    func next -> any 
+end
+

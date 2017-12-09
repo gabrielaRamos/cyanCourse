@@ -1,0 +1,1 @@
+java -cp "C:\Cyan\lib\java-for-cyan_lang";"C:\Cyan\lib\javalib";"C:\Cyan\java-for-620360_trabalho1" main.P C:\Cyan\620360_trabalho1\teste.txt C:\Cyan\620360_trabalho1\testeSaida.txt 

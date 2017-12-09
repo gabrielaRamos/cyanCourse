@@ -1,0 +1,16 @@
+package main
+
+import cyan.io
+
+object ExceptionNegAge extends CyException
+  private Int age;
+
+  func init: Int idade {
+   self.age = idade;
+  }
+
+  func getAge -> Int {
+    return self.age;
+  }
+
+end

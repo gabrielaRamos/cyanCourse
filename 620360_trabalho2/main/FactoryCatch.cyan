@@ -1,0 +1,19 @@
+package main
+
+import cyan.io
+
+object FactoryCatch
+  private CatchAgeErrorSoft soft = CatchAgeErrorSoft();
+  private CatchAgeErrorHard hard = CatchAgeErrorHard();
+
+  func getCatchSoft -> CatchAgeErrorSoft {
+    ^ soft;
+  }
+  func getCatchHard -> CatchAgeErrorHard {
+    ^ hard;
+  }
+
+  func getCatchDefault -> CatchAgeErrorHard {
+   ^ hard;
+  }
+end

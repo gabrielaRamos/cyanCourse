@@ -1,0 +1,24 @@
+/*
+  Nome: Gabriela Ramos
+  RA: 620360
+  compile this using something like
+  C:\Cyan\saci C:\Cyan\620360_trabalho3\p.pyan  -cyanlang "C:\Cyan\lib" -javalib "C:\Cyan\lib\javalib" -args "C:\Cyan\620360_trabalho1\teste.txt" "C:\Cyan\620360_trabalho1\testeSaida.txt"
+  */
+package main
+
+import cyan.io
+
+object Exceptions
+overload
+func eval: ExceptionToXMLIllegalParameter e {
+  Out println: "Illegal Parameter", e getKey;
+}
+
+func eval: ExceptionCircularReference e {
+  Out println: "Circular Reference", e getAny;
+}
+
+func eval: ExceptionDoesNotUnderstand {
+  Out println: "Expected XMLRoot";
+}
+end

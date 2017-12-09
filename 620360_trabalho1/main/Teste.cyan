@@ -1,0 +1,55 @@
+package main
+
+/*
+  Nome: Gabriela Ramos
+  RA: 620360
+  compile this using something like
+  C:\Cyan\saci C:\Cyan\620360_trabalho1\p.pyan  -cyanlang "C:\Cyan\lib" -javalib "C:\Cyan\lib\javalib" -args "C:\Cyan\620360_trabalho1\teste.txt" "C:\Cyan\620360_trabalho1\testeSaida.txt"
+  */
+
+import cyan.io
+import other
+//import script
+
+object Teste
+  func teste {
+    //Assert testando os construtores
+    assert Complexo(1.0, 2.0) equal: Complexo(3.0 - 2.0, 1.0 + 0.5 + 0.5);
+    let zeroi = Complexo(0.0);
+    let oneOne = Complexo(1.0, 1.0);
+    let real = zeroi getNumComplex f1;
+    let testaComplexo = Complexo(1.0, 1.0);
+    assert Complexo((real*real + testaComplexo getNumComplex f1), testaComplexo getNumComplex f2) equal: oneOne;
+
+    let Complexo c = Complexo new;
+    assert c equal: zeroi;
+
+    var comp = Complexo(2.0, 2.0);
+    var complex = (comp + Complexo(1.0, 2.0));
+    assert complex equal: Complexo(3.0, 4.0);
+
+    comp = Complexo(2.0, 2.0);
+    complex = (comp - Complexo(1.0, 2.0));
+    assert complex equal: Complexo(1.0, 0.0);
+
+    comp = Complexo(2.0, 2.0);
+    complex = (comp * Complexo(1.0, 2.0));
+    assert complex equal: Complexo(2.0, 4.0);
+
+    var Complexo t = Complexo new;
+    //Testa para verificar se parte real e parte imaginaria sao iguais
+    assert t eq: Complexo(2.0, 2.0);
+    assert t neq: Complexo(5.0, 2.0);
+    var String s = t asString;
+
+    var Complexo x = Complexo(1.0, 2.0);
+    assert x === x;
+    assert x != comp;
+
+    (zeroi converteDouble);
+
+    //caso teste algo falso, assert irá falhar
+
+  }
+
+end

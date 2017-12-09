@@ -1,0 +1,123 @@
+package main
+
+/*
+  Nome: Gabriela Ramos
+  RA: 620360
+  compile this using something like
+  C:\Cyan\saci C:\Cyan\620360_trabalho1\p.pyan  -cyanlang "C:\Cyan\lib" -javalib "C:\Cyan\lib\javalib" -args "C:\Cyan\620360_trabalho1\teste.txt" "C:\Cyan\620360_trabalho1\testeSaida.txt"
+  */
+import cyan.io
+import other
+//import script
+
+object Program
+    private var String aux;
+    private let Array<String> sinais;
+    private var Array<Tuple<Double, Double, String>> numComplexos;
+
+    func init {
+      self.aux = "";
+      self.sinais = Array<String> new: 100;
+      self.numComplexos = Array<Tuple<Double, Double, String>> new: 100;
+    }
+
+    func calculaComplexos: Array<Complexo> numComplex, Array<String> sinais, Int i -> Array<Tuple<Double, Double, String>> {
+      var j = 0;
+      var Int n = 0;
+      var Double real;
+      var Double img;
+      var complexo;
+      let Array<Tuple<Double, Double, String>> ncomplexos = Array<Tuple<Double, Double, String>> new: 100;
+
+      {
+
+        if sinais[j] == "+" {
+          complexo = (numComplex[n] + numComplex[n+1]);
+
+          real = (complexo getNumComplex f1);
+          img = (complexo getNumComplex f2);
+          ncomplexos add: [. real, img, "+" .];
+        }
+        else if sinais[j] == "-" {
+          complexo = (numComplex[n] - numComplex[n+1]);
+          real = (complexo getNumComplex f1);
+          img = (complexo getNumComplex f2);
+          ncomplexos add: [. real, img, "-" .];
+        }
+        else {
+          complexo = (numComplex[n] * numComplex[n+1]);
+          real = (complexo getNumComplex f1);
+          img = (complexo getNumComplex f2);
+          ncomplexos add: [. real, img, "*" .];
+        }
+        ++j;
+        n = n + 2;
+      } repeatUntil: { ^ j >= i };
+
+      return ncomplexos;
+
+    }
+
+    func run: Array<String> args {
+    let Program p = Program new;
+    let  Array<Tuple<Double, Double>> t = Array<Tuple<Double, Double>> new: 100;
+    let Array<String> strArray = Array<String> new: 100;
+    let Array<Complexo> numerosComplex = Array<Complexo> new: 100;
+    let Complexo c = Complexo new;
+    var Tuple<Double, Double> x;
+    var i = 0;
+    var j = 0;
+    //armazena os arquivos passados como parametro
+    let Array<String> arq = Array<String> new: 3;
+    let Teste teste = Teste new;
+
+    //armazena os valores que são passados como parametro
+    args foreach: { (: String s :)
+        arq add: s;
+
+    };
+
+    InTextFile
+      open: arq[0]
+        foreach: { (: String line :)
+          if line == "+" || line == "-" || line == "*" {
+            self.sinais add: line;
+            ++i;
+          }
+          else {
+            x = (c getDoubles: line);
+            t add: x;
+            ++j;
+          }
+        }
+      catch: CatchExceptionIOMessage;
+
+    //parte real e imaginaria do numero
+    for s in 0..j-1 {
+      let Complexo complex = Complexo(t[s] f1, t[s] f2);
+      numerosComplex add: complex;
+    }
+
+    self.numComplexos = p calculaComplexos: numerosComplex, self.sinais, i;
+
+    //monta string para
+    for s in 0..< i {
+      self.aux = "" ++ self.numComplexos[s] f1 ++ " " ++ self.numComplexos[s] f3 ++ " " ++ self.numComplexos[s] f2 ++ "i" ++ "\n";
+      strArray add: self.aux;
+    }
+
+    //usar RepeatUntil pq for normal printa o inverso no arquivo
+    j = i- 1;
+    {
+      OutTextFile open: arq[1]
+                  maxNumLines: i
+                  write: strArray[j]
+                  catch: CatchExceptionIOMessage;
+      j = j - 1;
+    } repeatUntil: { ^ j < 0 };
+
+    //Testar macro
+    (teste teste);
+  }
+
+end

@@ -1,0 +1,41 @@
+package main
+
+import cyan.io
+
+object FactoryCatch
+  private CatchAgeErrorSoft soft = CatchAgeErrorSoft();
+  private CatchAgeErrorHard hard = CatchAgeErrorHard();
+
+  func getCatchSoft -> CatchAgeErrorSoft {
+    ^ soft;
+  }
+  func getCatchHard -> CatchAgeErrorHard {
+
+  }
+
+ @pushCompilationContextStatement(pp12, pp) 
+
+    // Methods added by the compiler
+    override    func prototype -> FactoryCatch {
+        @javacode{* return prototype;
+        *}
+    } 
+ @popCompilationContext(pp12) 
+ @pushCompilationContextStatement(new266, new) 
+    // Methods added by the compiler
+
+    override    func clone -> FactoryCatch {
+        @javacode<<*
+        try {
+            return (_FactoryCatch ) this.clone(); 
+        } catch (CloneNotSupportedException e) { }
+        return null;
+        *>>    } 
+    func init { } 
+
+    func new -> FactoryCatch {
+        @javacode<**< 
+            return new _FactoryCatch();        >**>
+    }
+ @popCompilationContext(new266) 
+end

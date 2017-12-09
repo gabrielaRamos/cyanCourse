@@ -1,0 +1,89 @@
+package main
+
+import cyan.io
+
+object Program
+
+func ageDescription: Int age -> String {
+  var String faixaEtaria;
+
+  if  age >= 0 && age <= 3  {
+    return "bebê";
+  }
+  else {
+    if age >= 4 && age <= 12 {
+      return "crianca";
+    }
+    else {
+      if age >= 13 && age <= 19 {
+        return "adolescente";
+      }
+      else {
+        if age >= 20 && age <= 65 {
+          return "adulto";
+        }
+        else {
+          if age >= 66 && age <= 127 {
+            return "idoso";
+          }
+          else {
+            if age < 0 {
+              throw: ExceptionNegAge(age);
+            }
+            if age > 127 {
+              throw: ExceptionInvdAge(age);
+            }
+
+          }
+        }
+      }
+    }
+    return ""
+  }
+
+
+}
+
+  func run {
+    let Program p = Program new;
+    var String idade;
+    {
+      idade = (p ageDescription: 190 );
+      idade println;
+    } catch: ExceptionCatchAge;
+    /*
+    notNil one = first asDouble, two = second asDouble {
+        return [. one, two .]
+    }
+    else {
+        throw: ExceptionStr("Error in casting $s to two Doubles")
+    }
+    */
+  }
+
+ @pushCompilationContextStatement(pp11, pp) 
+
+    // Methods added by the compiler
+    override    func prototype -> Program {
+        @javacode{* return prototype;
+        *}
+    } 
+ @popCompilationContext(pp11) 
+ @pushCompilationContextStatement(new263, new) 
+    // Methods added by the compiler
+
+    override    func clone -> Program {
+        @javacode<<*
+        try {
+            return (_Program ) this.clone(); 
+        } catch (CloneNotSupportedException e) { }
+        return null;
+        *>>    } 
+    func init { } 
+
+    func new -> Program {
+        @javacode<**< 
+            return new _Program();        >**>
+    }
+ @popCompilationContext(new263) 
+end

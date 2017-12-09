@@ -1,0 +1,41 @@
+package main
+
+import cyan.io
+
+object ExceptionInvAge extends CyException
+  private Int age;
+
+  func init: Int idade {
+    _age = idade;
+  }
+
+  func getAge -> Int {
+    return self.age;
+  }
+
+ @pushCompilationContextStatement(pp10, pp) 
+
+    // Methods added by the compiler
+    override    func prototype -> ExceptionInvAge {
+        @javacode{* return prototype;
+        *}
+    } 
+ @popCompilationContext(pp10) 
+ @pushCompilationContextStatement(new264, new) 
+    // Methods added by the compiler
+
+    override    func clone -> ExceptionInvAge {
+        @javacode<<*
+        try {
+            return (_ExceptionInvAge ) this.clone(); 
+        } catch (CloneNotSupportedException e) { }
+        return null;
+        *>>    } 
+
+    func new: ( Int p0 ) -> ExceptionInvAge {
+        @javacode<**< 
+            return new _ExceptionInvAge(_p0);
+        >**>
+    }
+ @popCompilationContext(new264) 
+end

@@ -1,0 +1,43 @@
+package main
+
+import cyan.io
+
+object Exceptions
+overload
+func eval: ExceptionToXMLIllegalParameter e {
+  Out println: "Illegal Parameter" e getKey;
+}
+
+func eval: ExceptionCircularReference e {
+  Out println: "Circular Reference" e getAny;
+}
+
+func eval: ExceptionDoesNotUnderstand {
+  Out println: "Expected XMLRoot";
+}
+ @pushCompilationContextStatement(pp10, pp) 
+
+    // Methods added by the compiler
+    override    func prototype -> Exceptions {
+        @javacode{* return prototype;
+        *}
+    } 
+ @popCompilationContext(pp10) 
+ @pushCompilationContextStatement(new281, new) 
+    // Methods added by the compiler
+
+    override    func clone -> Exceptions {
+        @javacode<<*
+        try {
+            return (_Exceptions ) this.clone(); 
+        } catch (CloneNotSupportedException e) { }
+        return null;
+        *>>    } 
+    func init { } 
+
+    func new -> Exceptions {
+        @javacode<**< 
+            return new _Exceptions();        >**>
+    }
+ @popCompilationContext(new281) 
+end

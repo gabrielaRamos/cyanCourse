@@ -1,0 +1,11 @@
+/*
+  Nome: Gabriela Ramos
+  RA: 620360
+  compile this using something like
+  C:\Cyan\saci C:\Cyan\620360_trabalho1\p.pyan  -cyanlang "C:\Cyan\lib" -javalib "C:\Cyan\lib\javalib" -args "C:\Cyan\620360_trabalho1\teste.txt" "C:\Cyan\620360_trabalho1\testeSaida.txt"
+  */
+program at "C:\Cyan\620360_trabalho1"
+
+    package cyan.io at "C:\Cyan\lib\cyan\io"
+    package other at "C:\Cyan\lib"
+    package script at "C:\Cyan\lib\cyan"

@@ -1,0 +1,51 @@
+package main
+
+/*
+  Nome: Gabriela Ramos
+  RA: 620360
+  compile this using something like
+  C:\Cyan\saci C:\Cyan\620360_trabalho1\p.pyan  -cyanlang "C:\Cyan\lib" -javalib "C:\Cyan\lib\javalib" -args "C:\Cyan\620360_trabalho1\teste.txt" "C:\Cyan\620360_trabalho1\testeSaida.txt"
+  */
+
+import cyan.io
+import other
+//import script
+
+object ExceptionStr(String message) extends CyException
+func eval: (ExceptionStr e) {
+  Out println: (e message);
+  System exit
+}
+
+ @pushCompilationContextStatement(pp9, pp) 
+
+    // Methods added by the compiler
+    override    func prototype -> ExceptionStr {
+        @javacode{* return prototype;
+        *}
+    } 
+ @popCompilationContext(pp9) 
+ @pushCompilationContextStatement(new287, new) 
+    // Methods added by the compiler
+
+    override    func clone -> ExceptionStr {
+        @javacode<<*
+        try {
+            return (_ExceptionStr ) this.clone(); 
+        } catch (CloneNotSupportedException e) { }
+        return null;
+        *>>    } 
+
+    func init: String message {
+        @javacode{*
+        this._message = _message;
+        *}
+    }
+
+    func new: String message -> ExceptionStr {
+        @javacode<**< 
+            return new _ExceptionStr(_message);
+        >**>
+    }
+ @popCompilationContext(new287) 
+end

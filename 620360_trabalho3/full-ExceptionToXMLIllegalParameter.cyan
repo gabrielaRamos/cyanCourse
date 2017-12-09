@@ -1,0 +1,16 @@
+package main
+
+import cyan.io
+
+object ExceptionToXMLIllegalParameter extends CyException
+  private Any key;
+
+  func init: Any key {
+    self.key = key;
+  }
+
+  func getKey -> Any {
+    return self.key;
+  }
+
+end

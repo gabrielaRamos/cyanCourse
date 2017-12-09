@@ -1,0 +1,39 @@
+package main
+
+import cyan.io
+
+object CatchAgeErrorSoft
+overload
+func eval: ExceptionNegAge e {
+  Out println: "Age ", e getAge, " is negative"
+}
+overload
+func eval: ExceptionInvAge age {
+  Out println: "Age ", e age, " is out of limits"
+}
+ @pushCompilationContextStatement(pp9, pp) 
+
+    // Methods added by the compiler
+    override    func prototype -> CatchAgeErrorSoft {
+        @javacode{* return prototype;
+        *}
+    } 
+ @popCompilationContext(pp9) 
+ @pushCompilationContextStatement(new263, new) 
+    // Methods added by the compiler
+
+    override    func clone -> CatchAgeErrorSoft {
+        @javacode<<*
+        try {
+            return (_CatchAgeErrorSoft ) this.clone(); 
+        } catch (CloneNotSupportedException e) { }
+        return null;
+        *>>    } 
+    func init { } 
+
+    func new -> CatchAgeErrorSoft {
+        @javacode<**< 
+            return new _CatchAgeErrorSoft();        >**>
+    }
+ @popCompilationContext(new263) 
+end
